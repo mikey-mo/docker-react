@@ -6,4 +6,14 @@ before_install:
   - docker build -t frontend:test -f Dockerfile.dev .
 
 script:
-  - docker run frontend:test npm run test -- --coverage --forceExit --detectOpenHandles --maxWorkers=10
+  - docker run frontend:test npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "frontend"
+  env: "Docker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-525042843380"
+  bucket_path: "frontend"
+  on:
+    branch: master
